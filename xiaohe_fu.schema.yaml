@@ -1,0 +1,114 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: xiaohe_fu
+  name: 小鹤+辅助码
+  version: "0.1"
+  author:
+    - Betty
+  description: |
+    小鹤双拼 + 自然码辅助码
+  dependencies:
+    - stroke
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 西文 ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - name: simplification
+    reset: 1
+    states: [ 漢字, 汉字 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - reverse_lookup_translator
+    - script_translator
+  filters:
+    - simplifier
+    - uniquifier
+
+speller:
+  alphabet: "zyxwvutsrqponmlkjihgfedcba;"
+  initials: "zyxwvutsrqponmlkjihgfedcba"
+  delimiter: " '"
+  algebra:
+    - erase/^xx$/
+    - derive/^([jqxy])u$/$1v/
+    - derive/^([aoe])([ioun])(;\w{2})$/$1$1$2$3/
+    - xform/^([aoe])(ng)?(;\w{2})$/$1$1$2$3/
+    - xform/iu(;\w{2})$/Q$1/
+    - xform/(.)ei(;\w{2})$/$1W$2/
+    - xform/uan(;\w{2})$/R$1/
+    - xform/[uv]e(;\w{2})$/T$1/
+    - xform/un(;\w{2})$/Y$1/
+    - xform/^sh/U/
+    - xform/^ch/I/
+    - xform/^zh/V/
+    - xform/uo(;\w{2})$/O$1/
+    - xform/ie(;\w{2})$/P$1/
+    - xform/i?ong(;\w{2})$/S$1/
+    - xform/(ing|uai)(;\w{2})$/K$2/
+    - xform/(.)ai(;\w{2})$/$1D$2/
+    - xform/(.)en(;\w{2})$/$1F$2/
+    - xform/(.)eng(;\w{2})$/$1G$2/
+    - xform/[iu]ang(;\w{2})$/L$1/
+    - xform/(.)ang(;\w{2})$/$1H$2/
+    - xform/ian(;\w{2})$/M$1/
+    - xform/(.)an(;\w{2})$/$1J$2/
+    - xform/(.)ou(;\w{2})$/$1Z$2/
+    - xform/[iu]a(;\w{2})$/X$1/
+    - xform/iao(;\w{2})$/N$1/
+    - xform/(.)ao(;\w{2})$/$1C$2/
+    - xform/ui(;\w{2})$/V$1/
+    - xform/in(;\w{2})$/B$1/
+    - xlit/QWRTYUIOPSDFGHJKLZXCVBNM/qwrtyuiopsdfghjklzxcvbnm/
+    - abbrev/^(.).+$/$1/
+    - derive/^(\w+);\w{2}$/$1/         #不打辅助码也可以匹配
+    - derive/^(\w+);(\w)\w$/$1;$2/     #只打一位辅助码也可以匹配
+#    - derive/^(\w+);(\w+)$/$1$2/       #注释此行则需要打分号 ; 后输入辅助码，取消注释则双拼后可直接输入辅助码
+
+translator:
+  dictionary: xiaohe_fu
+
+reverse_lookup:
+  dictionary: stroke
+  enable_completion: true
+  prefix: "`"
+  suffix: "'"
+  tips: 〔筆畫〕
+  preedit_format:
+    - xlit/hspnz/一丨丿丶乙/
+  comment_format:
+    - xform/([nl])v/$1ü/
+
+punctuator:
+  import_preset: default
+
+key_binder:
+  import_preset: default
+
+recognizer:
+  import_preset: default
+  patterns:
+    reverse_lookup: "`[a-z]*'?$"
