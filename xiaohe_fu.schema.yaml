@@ -4,7 +4,7 @@
 schema:
   schema_id: xiaohe_fu
   name: 小鹤+辅助码
-  version: "0.1"
+  version: "20210313"
   author:
     - Betty
   description: |
@@ -42,8 +42,10 @@ engine:
     - fallback_segmentor
   translators:
     - punct_translator
+    - table_translator@custom_phrase
     - reverse_lookup_translator
     - script_translator
+    - lua_translator@date_translator
   filters:
     - simplifier
     - uniquifier
@@ -90,6 +92,14 @@ speller:
 
 translator:
   dictionary: xiaohe_fu
+
+custom_phrase:
+  dictionary: ""
+  user_dict: custom_phrase
+  db_class: stabledb
+  enable_completion: false
+  enable_sentence: false
+  initial_quality: 1000       #为了使自定义短语排在首位，这个值设得较大
 
 reverse_lookup:
   dictionary: stroke
