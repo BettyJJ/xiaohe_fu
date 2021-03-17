@@ -4,7 +4,7 @@
 schema:
   schema_id: xiaohe_fu
   name: 小鹤+辅助码
-  version: "20210313"
+  version: "20210317"
   author:
     - Betty
   description: |
@@ -55,8 +55,7 @@ speller:
   initials: "zyxwvutsrqponmlkjihgfedcba"
   delimiter: " '"
   algebra:
-    - erase/^xx$/
-    - derive/^([jqxy])u$/$1v/
+    # 双拼方案
     - derive/^([aoe])([ioun])(;\w{2})$/$1$1$2$3/
     - xform/^([aoe])(ng)?(;\w{2})$/$1$1$2$3/
     - xform/iu(;\w{2})$/Q$1/
@@ -85,6 +84,7 @@ speller:
     - xform/ui(;\w{2})$/V$1/
     - xform/in(;\w{2})$/B$1/
     - xlit/QWRTYUIOPSDFGHJKLZXCVBNM/qwrtyuiopsdfghjklzxcvbnm/
+    # 输入不全时也可以匹配
     - abbrev/^(.).+$/$1/
     - derive/^(\w+);\w{2}$/$1/         #不打辅助码也可以匹配
     - derive/^(\w+);(\w)\w$/$1;$2/     #只打一位辅助码也可以匹配
@@ -92,6 +92,7 @@ speller:
 
 translator:
   dictionary: xiaohe_fu
+  prism: xiaohe_fu
 
 custom_phrase:
   dictionary: ""
