@@ -1,4 +1,11 @@
 # 小鹤双拼 + 自然码辅助码方案
+
+**因存在[候选字排序疑似 bug](https://github.com/rime/home/discussions/751)，本人无力解决，无奈只能放弃 Rime 输入法，此方案不再维护。**
+
+**现在改投小小输入法，有人分享整合好的[小鹤双拼加辅助码方案](http://yong.dgod.net/read.php?tid=4091&fid=4)，下载即用，很方便。**
+
+---
+
 本方案的码表给 Rime 自带的明月拼音的单字后面添加了自然码辅助码，自然码辅助码提取自	https://github.com/henices/rime	zrm2000	码表。
 
 本方案优势：
